@@ -35,5 +35,37 @@ public class PessoaNeo4jGraph {
             System.out.println("Amizade registrada no Neo4j.");
         }
     }
+        public void criarParentesco(Long id1, String nome1, Long id2, String nome2) {
+        try (Session session = driver.session()) {
+            session.run("""
+                MERGE (a:Pessoa {id: $id1})
+                SET a.nome = $nome1
+                MERGE (b:Pessoa {id: $id2})
+                SET b.nome = $nome2
+                MERGE (a)-[:PARENTE_DE]->(b)
+            """, 
+            org.neo4j.driver.Values.parameters(
+                "id1", id1, "nome1", nome1,
+                "id2", id2, "nome2", nome2
+            ));
+            System.out.println("Parente registrada no Neo4j.");
+        }
+    }
+        public void criarColega(Long id1, String nome1, Long id2, String nome2) {
+        try (Session session = driver.session()) {
+            session.run("""
+                MERGE (a:Pessoa {id: $id1})
+                SET a.nome = $nome1
+                MERGE (b:Pessoa {id: $id2})
+                SET b.nome = $nome2
+                MERGE (a)-[:COLEGA_DE_FACULDADE]->(b)
+            """, 
+            org.neo4j.driver.Values.parameters(
+                "id1", id1, "nome1", nome1,
+                "id2", id2, "nome2", nome2
+            ));
+            System.out.println("Parente registrada no Neo4j.");
+        }
+    }
 }
 
